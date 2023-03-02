@@ -21,7 +21,7 @@ async function run() {
 
         const AllServicesCollection = client.db('FoodsReview').collection('AllServices');
         const categoryCollection = client.db("FoodsReview").collection('CategoryFoods')
-
+        const blogsCollection = client.db('FoodsReview').collection('blogs')
         // Get request 
         app.get('/AllServices', async (req, res) => {
             const query = {};
@@ -57,8 +57,21 @@ async function run() {
             const result = await AllServicesCollection.findOne(cursor);
             res.send(result)
         })
+        app.get('/blogs', async (req, res) => {
+            const query = {};
+            const result = await blogsCollection.find(query).toArray();
+            res.send(result);
+        })
 
-
+        app.post('/blogs', async (req, res) => {
+            const data = req.body;
+            const result = await blogsCollection.insertOne(data);
+            if (result.acknowledged) {
+                res.send({ message: "Your blog completely Submit" })
+            } else {
+                res.send({ error: "It's Not submit. Try again" });
+            }
+        })
     }
     finally {
 
