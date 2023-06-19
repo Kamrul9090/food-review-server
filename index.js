@@ -65,6 +65,7 @@ async function run() {
 
         app.post('/blogs', async (req, res) => {
             const data = req.body;
+            console.log(data);
             const result = await blogsCollection.insertOne(data);
             if (result.acknowledged) {
                 res.send({ message: "Your blog completely Submit" })
